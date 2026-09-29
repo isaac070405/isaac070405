@@ -19,9 +19,3 @@
 - **Scientific Documentation &  Typesetting:** LaTeX (Academic Writing,Formulas & Reports)
 - **Diagrams & Pathways:** [Mermaid.js (Click to see visual examples ↗](mermaid-examples.md)
 
----
-
-### 📊 GitHub Overview
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=isaac070405&show_icons=true&theme=nord" alt="GitHub Stats" />
-</div>
