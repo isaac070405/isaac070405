@@ -1,12 +1,12 @@
 ## Hi there, I'm Isaac 👋
 
-🔬 **Undergraduate Student** @ The University of Sydney  
+🔬 **Undergraduate Student** @The University of Sydney  
 🥗 **Major:** Nutrition Science | 🌊 **Minor:** Marine Science  
 
 ---
 
 ### About Me
-- **Current Focus:** Metabolic Ψybernetics, Cellular Biochemistry and Physiology
+- **Current Focus:** Metabolic Cybernetics, Cellular Biochemistry and Physiology
 - **Interests:** Exploring the intersection of Nutritional Biology, Marine Biology and Pharmacology
 - **Academics:** Exploring Metabolic Regulation, Biochemical Mechanisms of Human Disease, and Marine Science.
 - **Ask me about:** 
