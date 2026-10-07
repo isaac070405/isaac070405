@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human Anatomy · Body Systems</title>
+<link rel="stylesheet" href="_ds/classical-a5417205-2c01-4d08-baab-1aba9163c8fb/styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<style>
+  three-d-stage:not(:defined){visibility:hidden}
+  html,body{margin:0;height:100%;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)}
+  a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}
+  three-d-stage{position:fixed;inset:0;width:100vw;height:100vh}
+  .panel{position:fixed;top:24px;left:24px;width:min(330px,calc(100vw - 48px));max-height:calc(100vh - 110px);overflow:auto;box-sizing:border-box;
+    background:color-mix(in oklab,var(--color-bg) 94%,transparent);border:1px solid var(--color-divider);border-radius:var(--radius-md,4px);
+    padding:20px 20px 16px;box-shadow:var(--shadow-sm);z-index:2}
+  .kicker{font-family:var(--font-heading);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);font-feature-settings:"tnum"}
+  h1{font-family:var(--font-heading);font-weight:400;font-size:32px;line-height:1.05;margin:6px 0 8px}
+  .lede{font-size:13px;line-height:1.5;margin:0 0 14px;text-align:justify;hyphens:auto}
+  h2{font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700);margin:0 0 6px}
+  .sec{border-top:1px solid var(--color-divider);padding:12px 0}
+  .sys{display:flex;align-items:center;gap:10px;padding:5px 6px;border-radius:2px;cursor:pointer}
+  .sys:hover{background:var(--color-accent-100)}
+  .sys.sel{background:var(--color-accent-200)}
+  .sys .sw{width:12px;height:12px;border-radius:50%;border:1px solid var(--color-neutral-700);flex:none}
+  .sname{font-family:var(--font-heading);font-size:20px;font-weight:600;flex:1;line-height:1.1}
+  input[type=checkbox]{accent-color:var(--color-accent-600);width:16px;height:16px;margin:0;cursor:pointer}
+  input[type=range]{accent-color:var(--color-accent-600);width:100%;margin:0;cursor:pointer}
+  input:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+  .btns{display:flex;gap:8px;margin-top:10px}
+  .b{font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--color-accent-700);border:1px solid var(--color-accent-500);
+    border-radius:var(--radius-md,4px);padding:6px 10px;cursor:pointer}
+  .b:hover{background:var(--color-accent-100)} .b:active{background:var(--color-accent-200)}
+  .info h3{font-family:var(--font-heading);font-weight:400;font-size:26px;margin:0 0 4px;line-height:1.05}
+  .info p{font-size:13px;line-height:1.5;margin:0 0 8px;text-align:justify;hyphens:auto}
+  .parts{font-size:12px;line-height:1.55;color:var(--color-neutral-700);margin:0}
+  .rowl{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:4px}
+  .rowl b{font-family:var(--font-heading);font-size:18px;font-weight:600}
+  .pl{display:grid;gap:4px;padding:8px 0;border-top:1px solid var(--color-divider)}
+  .pl:first-of-type{border-top:0}
+  .ends{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700)}
+  details>summary{cursor:pointer;list-style:none;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700)}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary::after{content:"+";float:right} details[open]>summary::after{content:"–"}
+  .foot{font-size:11px;color:var(--color-neutral-700);line-height:1.5;border-top:1px solid var(--color-divider);padding-top:10px}
+  #tip{position:fixed;pointer-events:none;z-index:3;display:none;background:var(--color-bg);border:1px solid var(--color-accent-500);border-radius:2px;
+    padding:3px 9px;font-family:var(--font-heading);font-size:17px;font-weight:600;box-shadow:var(--shadow-sm);white-space:nowrap}
+</style>
+</head>
+<body>
+<three-d-stage name="human-anatomy"></three-d-stage>
+<div id="tip"></div>
+
+<aside class="panel">
+  <div class="kicker">Plate II · Systems of the body</div>
+  <h1>Human anatomy</h1>
+  <p class="lede">A simplified model in anatomical position. Layer the body systems, hover a structure to name it, and cut through with the three anatomical planes.</p>
+
+  <div class="sec">
+    <h2>Systems</h2>
+    <div id="systems"></div>
+    <div class="btns"><button class="b" id="all">Show all</button><button class="b" id="none">Clear</button></div>
+    <div class="rowl" style="margin-top:12px"><span>Skin opacity</span></div>
+    <input type="range" id="skinop" min="0" max="1" step="0.01" value="0.12" aria-label="Skin opacity">
+  </div>
+
+  <div class="sec info" id="info"></div>
+
+  <div class="sec">
+    <details>
+      <summary>Anatomical planes</summary>
+      <div style="margin-top:8px">
+        <div class="pl">
+          <div class="rowl"><b>Sagittal</b><input type="checkbox" data-plane="sagittal" aria-label="Show sagittal plane"></div>
+          <div class="ends" style="text-transform:none;letter-spacing:0;font-size:12px;display:block;line-height:1.4">Vertical, front to back. Divides left from right.</div>
+          <input type="range" data-slide="sagittal" min="-0.3" max="0.3" step="0.005" value="0" aria-label="Sagittal position">
+          <div class="ends"><span>Right</span><span>Median</span><span>Left</span></div>
+        </div>
+        <div class="pl">
+          <div class="rowl"><b>Coronal</b><input type="checkbox" data-plane="coronal" aria-label="Show coronal plane"></div>
+          <div class="ends" style="text-transform:none;letter-spacing:0;font-size:12px;display:block;line-height:1.4">Vertical, side to side. Divides anterior from posterior.</div>
+          <input type="range" data-slide="coronal" min="-0.12" max="0.12" step="0.005" value="0" aria-label="Coronal position">
+          <div class="ends"><span>Posterior</span><span>Anterior</span></div>
+        </div>
+        <div class="pl">
+          <div class="rowl"><b>Transverse</b><input type="checkbox" data-plane="transverse" aria-label="Show transverse plane"></div>
+          <div class="ends" style="text-transform:none;letter-spacing:0;font-size:12px;display:block;line-height:1.4">Horizontal, also axial. Divides superior from inferior.</div>
+          <input type="range" data-slide="transverse" min="0.05" max="1.72" step="0.005" value="1.2" aria-label="Transverse height">
+          <div class="ends"><span>Inferior</span><span>Superior</span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="foot">Left and right are the figure's own. Downloads include the systems currently shown.</div>
+</aside>
+
+<script src="three-d-stage.js"></script>
+<script type="module">
+const stage = document.querySelector('three-d-stage');
+const { THREE } = await stage.ready;
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const model = new THREE.Group(); model.name = 'human_anatomy';
+
+const SYS = [
+  { k: 'skin', name: 'Skin', color: '#e7ddd2', on: true,
+    blurb: 'The body surface, shown as a translucent shell so the systems beneath stay visible. Adjust it with the opacity slider.',
+    parts: ['Head', 'Torso', 'Arms and hands', 'Legs and feet'] },
+  { k: 'skeletal', name: 'Skeletal', color: '#e9dfc9', on: true,
+    blurb: 'Supports the body, protects organs and anchors muscle. Bone is shown in ivory and cartilage (discs, costal cartilage, joint surfaces) in blue-grey. Hover any bone to name it.',
+    parts: ['Skull and mandible', 'Hyoid', 'Vertebrae C1–L5', 'Intervertebral discs', 'Sacrum and coccyx', 'Ribs 1–12', 'Costal cartilage', 'Sternum', 'Clavicle', 'Scapula', 'Humerus', 'Radius and ulna', 'Carpals, metacarpals, phalanges', 'Pelvis', 'Femur', 'Patella', 'Tibia and fibula', 'Tarsals, metatarsals, phalanges'] },
+  { k: 'muscular', name: 'Muscular', color: '#a5473b', on: false,
+    blurb: 'Skeletal muscle produces movement and holds posture, attaching to bone through tendons. The major superficial groups are shown.',
+    parts: ['Trapezius', 'Deltoid', 'Pectoralis major', 'Latissimus dorsi', 'Rectus abdominis', 'External oblique', 'Biceps', 'Triceps', 'Forearm flexors', 'Gluteus maximus', 'Quadriceps', 'Hamstrings', 'Gastrocnemius', 'Tibialis anterior'] },
+  { k: 'circulatory', name: 'Circulatory', color: '#b3322b', on: true,
+    blurb: 'The heart pumps blood through a closed network of vessels. Arteries (red) carry blood away from the heart; veins (blue) return it.',
+    parts: ['Heart', 'Aorta', 'Carotid arteries', 'Brachial arteries and veins', 'Femoral arteries and veins', 'Vena cava', 'Jugular veins', 'Pulmonary vessels'] },
+  { k: 'respiratory', name: 'Respiratory', color: '#d89a98', on: true,
+    blurb: 'Brings air to the lungs for gas exchange. The diaphragm drives breathing by changing the volume of the chest.',
+    parts: ['Larynx', 'Trachea', 'Bronchi', 'Lungs', 'Diaphragm'] },
+  { k: 'digestive', name: 'Digestive', color: '#c9826f', on: false,
+    blurb: 'Breaks down food, absorbs nutrients and water, and eliminates waste. Shown in situ: the liver, gallbladder and spleen lie under the diaphragm, the small intestine coils beneath the transverse colon, and the translucent greater omentum hangs over them.',
+    parts: ['Tongue', 'Pharynx', 'Esophagus (cervical, thoracic, abdominal; mucosa, muscle layers, adventitia)', 'Esophageal hiatus', 'Stomach: cardia, fundus, body, pyloric antrum, curvatures, rugae, three muscle layers, serosa', 'Lower oesophageal and pyloric sphincters', 'Lesser omentum', 'Liver', 'Gallbladder', 'Bile and pancreatic ducts, ampulla of Vater', 'Pancreas', 'Spleen', 'Duodenum (4 parts)', 'Jejunum and ileum with plicae circulares', "Peyer's patches", 'Ileocecal valve', 'Cecum and appendix', 'Ascending colon', 'Transverse colon', 'Descending colon', 'Sigmoid colon', 'Rectum', 'Anal canal', 'Greater omentum'] },
+  { k: 'urinary', name: 'Urinary', color: '#8a4a3d', on: false,
+    blurb: 'Filters blood, regulates fluid and electrolyte balance, and removes waste as urine.',
+    parts: ['Kidneys', 'Ureters', 'Bladder'] },
+  { k: 'nervous', name: 'Nervous', color: '#e1ad66', on: false,
+    blurb: 'Senses, integrates and responds. The brain and spinal cord form the central system; nerves carry signals to and from the periphery.',
+    parts: ['Cerebrum', 'Cerebellum', 'Brainstem', 'Spinal cord', 'Brachial plexus', 'Intercostal nerves', 'Sciatic nerves'] },
+];
+const G = {};
+for (const s of SYS) { const g = new THREE.Group(); g.name = s.k + '_system'; g.visible = s.on; G[s.k] = g; model.add(g); }
+
+const M = (name, color, rough = 0.65, o = {}) => new THREE.MeshStandardMaterial({ name, color, roughness: rough, metalness: 0, ...o });
+const mat = {
+  skin: M('skin', 0xe7ddd2, 0.75, { transparent: true, opacity: 0.12, depthWrite: false }),
+  bone: M('bone', 0xe6d8b8, 0.6), cartilage: M('cartilage', 0xa3bdd1, 0.5), teeth: M('teeth', 0xf4efe2, 0.4), skull: M('skull_bone', 0xe6d8b8, 0.6, { transparent: true, opacity: 0.5, depthWrite: false }),
+  socket: M('socket', 0x2d2b2b, 0.9),
+  muscle: M('muscle', 0xa5473b, 0.7), diaphragm: M('diaphragm', 0xc07a62, 0.7, { side: THREE.DoubleSide }),
+  artery: M('artery', 0xb3322b, 0.5), vein: M('vein', 0x3f5f8f, 0.5), heart: M('heart', 0x9c2f33, 0.55),
+  lung: M('lung', 0xd89a98, 0.8, { transparent: true, opacity: 0.78, depthWrite: false }), airway: M('airway', 0xe8d3c4, 0.5),
+  liver: M('liver', 0x6e3a2a, 0.6), stomach: M('stomach', 0xc9826f, 0.6), gall: M('bile', 0x6b7a3a, 0.5), pancreas: M('pancreas', 0xd9b27a, 0.7),
+  smallInt: M('small_intestine', 0xd9a08a, 0.55), largeInt: M('large_intestine', 0xb97a5c, 0.6),
+  kidney: M('kidney', 0x8a4a3d, 0.55), bladder: M('bladder', 0xd0a89a, 0.6),
+  brain: M('brain', 0xd9b3ae, 0.7), nerve: M('nerve', 0xe1ad66, 0.5),
+};
+const pretty = n => { n = n.replace(/_\d+$/, '').replace(/_(left|right)$/, ' ($1)').replace(/_/g, ' '); return n[0].toUpperCase() + n.slice(1); };
+function reg(sys, name, m, o = {}) { m.name = name; m.userData.label = o.label || pretty(name); m.userData.sys = sys; G[sys].add(m); return m; }
+function xf(m, pos, o = {}) { if (pos) m.position.set(...pos); if (o.scale) m.scale.set(...o.scale); if (o.rot) m.rotation.set(...o.rot); return m; }
+const sph = (sys, name, r, pos, mt, o) => reg(sys, name, xf(new THREE.Mesh(new THREE.SphereGeometry(r, 36, 24), mt), pos, o), o);
+const box = (sys, name, d, pos, mt, o) => reg(sys, name, xf(new THREE.Mesh(new THREE.BoxGeometry(...d), mt), pos, o), o);
+const cap = (sys, name, r, len, pos, mt, o) => reg(sys, name, xf(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 12, 32), mt), pos, o), o);
+const Y = V(0, 1, 0);
+function seg(sys, name, a, b, r1, r2, mt, o = {}) {
+  const A = V(...a), B = V(...b), d = B.clone().sub(A);
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r2, r1, d.length(), 24, 1), mt);
+  m.position.copy(A).add(B).multiplyScalar(0.5); m.quaternion.setFromUnitVectors(Y, d.normalize());
+  if (o.scale) m.scale.set(...o.scale);
+  return reg(sys, name, m, o);
+}
+function bone(name, a, b, r1, r2, o = {}) {
+  seg('skeletal', name, a, b, r1, r2, mat.bone, o);
+  sph('skeletal', name + '_head', r1 * 1.45, a, mat.bone, { label: o.label || pretty(name) });
+  sph('skeletal', name + '_end', r2 * 1.45, b, mat.bone, { label: o.label || pretty(name) });
+}
+function tube(sys, name, pts, r, mt, o = {}) {
+  const c = new THREE.CatmullRomCurve3(pts.map(p => V(...p)));
+  return reg(sys, name, new THREE.Mesh(new THREE.TubeGeometry(c, pts.length * 10, r, 10, false), mt), o);
+}
+
+// ───────── SKIN ─────────
+sph('skin', 'head', 0.1, [0, 1.635, 0], mat.skin, { scale: [0.88, 1.12, 1] });
+sph('skin', 'nose', 0.018, [0, 1.62, 0.095], mat.skin, { scale: [0.8, 1.3, 1] });
+sph('skin', 'ear_right', 0.022, [-0.088, 1.635, -0.005], mat.skin, { scale: [0.5, 1.2, 0.9] });
+sph('skin', 'ear_left', 0.022, [0.088, 1.635, -0.005], mat.skin, { scale: [0.5, 1.2, 0.9] });
+reg('skin', 'neck', xf(new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.055, 0.12, 32), mat.skin), [0, 1.5, -0.005]));
+const prof = [[0.001,0.88],[0.15,0.89],[0.175,0.95],[0.17,1.02],[0.145,1.1],[0.15,1.18],[0.17,1.27],[0.18,1.36],[0.165,1.42],[0.1,1.46],[0.05,1.47],[0.001,1.475]].map(([r, y]) => new THREE.Vector2(r, y));
+reg('skin', 'torso', xf(new THREE.Mesh(new THREE.LatheGeometry(prof, 48), mat.skin), null, { scale: [1.12, 1, 0.64] }));
+
+// ───────── SKELETAL ─────────
+const SK = 'skeletal';
+const poly = (pts, s = 1, k = 1) => new THREE.Shape(new THREE.SplineCurve(pts.concat([pts[0]]).map(([x, y]) => new THREE.Vector2(s * x * k, y * k))).getPoints(pts.length * 10));
+const plate = (name, shape, depth, mt, pos, o = {}) => {
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: 0.0014, bevelSize: 0.0014, bevelSegments: 2, curveSegments: 10 });
+  g.translate(0, 0, -depth / 2); return reg(SK, name, xf(new THREE.Mesh(g, mt), pos, o), o);
+};
+function digit(base, start, dir, lens, r0, label) {
+  let p = V(...start); const d = V(...dir).normalize();
+  lens.forEach((L, i) => {
+    const q = p.clone().addScaledVector(d, L), r1 = r0 * (1 - 0.12 * i), r2 = r1 * 0.85;
+    seg(SK, `${base}_${i + 1}`, p.toArray(), q.toArray(), r1, r2, mat.bone, { label });
+    sph(SK, `${base}_${i + 1}_joint`, r2 * 1.28, q.toArray(), mat.bone, { label });
+    p = q.clone().addScaledVector(d, 0.0015);
+  });
+}
+
+// vertebral column: C1–C7, T1–T12, L1–L5 with discs, arches and processes
+const zc = y => -0.055 + 0.016 * Math.cos(((y - 0.93) / 0.61) * 2 * Math.PI) + (y > 1.4 ? ((y - 1.4) / 0.14) * 0.02 : 0);
+const VD = {};
+{
+  let y = 0.97, prev = null;
+  for (let i = 0; i < 24; i++) {
+    const R = i < 5 ? 'L' : i < 17 ? 'T' : 'C', n = i < 5 ? 5 - i : i < 17 ? 17 - i : 24 - i, lb = R + n;
+    const gap = i < 5 ? 0.028 : i < 17 ? 0.0262 : 0.0215; if (i > 0) y += gap;
+    const r = R === 'L' ? 0.0195 : R === 'T' ? 0.0128 + 0.0004 * (n - 1) : (n === 2 ? 0.0125 : 0.0112);
+    const h = R === 'L' ? 0.022 : R === 'T' ? 0.019 : 0.0145, cR = R === 'L' ? 0.011 : R === 'T' ? 0.0085 : 0.0098;
+    const zb = zc(y), zcan = zb - r * 0.85 - cR + 0.002;
+    const tpLen = R === 'L' ? 0.032 : R === 'T' ? 0.028 : 0.016, tpBack = R === 'T' ? 0.011 : R === 'L' ? -0.006 : -0.003;
+    const d = VD[lb] = { y, r, h, cR, zb, zcan, tpLen, tpBack }; const o = { label: 'Vertebra ' + lb };
+    if (n === 1 && R === 'C') {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.0165, 0.0055, 10, 28), mat.bone);
+      xf(ring, [0, y, zb - 0.008], { rot: [Math.PI / 2, 0, 0], scale: [1, 0.85, 1] }); reg(SK, 'atlas_C1', ring, o);
+    } else {
+      reg(SK, 'vertebral_body_' + lb, xf(new THREE.Mesh(new THREE.CylinderGeometry(r * 0.97, r, h, 28), mat.bone), [0, y, zb], { scale: [1, 1, 0.85] }), o);
+      const lo = prev || { y: y - gap, h: 0.02, r: 0.02, zb: zc(y - gap), lb: 'S1' };
+      const dh = gap - (h + lo.h) / 2 + 0.0004;
+      reg(SK, 'intervertebral_disc_' + lb, xf(new THREE.Mesh(new THREE.CylinderGeometry((r + lo.r) / 2 * 1.04, (r + lo.r) / 2 * 1.04, dh, 28), mat.cartilage), [0, y - gap / 2, (zb + lo.zb) / 2], { scale: [1, 1, 0.85] }),
+        { label: `Intervertebral disc ${lb}/${lo.lb}` });
+    }
+    const arc = new THREE.TorusGeometry(cR, 0.0042, 8, 20, Math.PI); arc.rotateZ(Math.PI); arc.rotateX(Math.PI / 2);
+    reg(SK, 'lamina_' + lb, xf(new THREE.Mesh(arc, mat.bone), [0, y, zcan]), o);
+    for (const s of [-1, 1]) {
+      const sd = s < 0 ? 'r' : 'l';
+      if (!(n === 1 && R === 'C')) seg(SK, `pedicle_${lb}_${sd}`, [s * r * 0.6, y, zb - r * 0.8], [s * cR, y, zcan], 0.0042, 0.0042, mat.bone, o);
+      const tipZ = zcan - tpBack;
+      seg(SK, `transverse_process_${lb}_${sd}`, [s * cR, y, zcan], [s * (cR + tpLen), y + 0.001, tipZ], 0.0045, 0.0042, mat.bone, o);
+      sph(SK, `transverse_process_tip_${lb}_${sd}`, 0.0058, [s * (cR + tpLen), y + 0.001, tipZ], mat.bone, o);
+      sph(SK, `articular_process_${lb}_${sd}`, 0.0046, [s * (cR + 0.002), y + h / 2 - 0.001, zcan - 0.004], mat.bone, o);
+    }
+    const sb = zcan - cR - 0.003;
+    if (R === 'T') seg(SK, 'spinous_process_' + lb, [0, y - 0.002, sb], [0, y - 0.024, sb - 0.022], 0.0046, 0.0028, mat.bone, o);
+    else if (R === 'L') seg(SK, 'spinous_process_' + lb, [0, y, sb], [0, y - 0.003, sb - 0.025], 0.006, 0.0055, mat.bone, { ...o, scale: [0.6, 1, 1] });
+    else seg(SK, 'spinous_process_' + lb, [0, y - 0.001, sb], [0, y - 0.004, sb - 0.016], 0.004, 0.003, mat.bone, o);
+    prev = { ...d, lb }; d.lb = lb;
+  }
+}
+plate('sacrum', poly([[-0.042, 0], [0, 0.005], [0.042, 0], [0.033, -0.05], [0.014, -0.1], [-0.014, -0.1], [-0.033, -0.05]]), 0.024, mat.bone, [0, 0.957, -0.043], { rot: [0.35, 0, 0], label: 'Sacrum' });
+seg(SK, 'coccyx', [0, 0.855, -0.066], [0, 0.825, -0.05], 0.007, 0.003, mat.bone);
+
+// thoracic cage: 12 rib pairs with head, neck, tubercle, angle; costal cartilage; sternum
+const RW = [0.07, 0.098, 0.122, 0.139, 0.148, 0.155, 0.155, 0.148, 0.136, 0.122, 0.1, 0.08];
+const RD = [0.058, 0.072, 0.083, 0.09, 0.093, 0.095, 0.095, 0.093, 0.088, 0.081, 0.063, 0.045];
+const RDR = [0.03, 0.04, 0.05, 0.06, 0.07, 0.085, 0.095, 0.1, 0.1, 0.095, 0.07, 0.04];
+const RA1 = [2.2, 2.35, 2.35, 2.35, 2.35, 2.35, 2.35, 2.35, 2.35, 2.3, 1.7, 1.3];
+const YS = [1.352, 1.322, 1.3, 1.278, 1.256, 1.234, 1.214];
+const PM = [[0.034, 1.19, 0.09], [0.052, 1.168, 0.087], [0.07, 1.148, 0.082]];
+for (let n = 1; n <= 12; n++) for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', v = VD['T' + n], W = RW[n - 1], D = RD[n - 1], DR = RDR[n - 1], A1 = RA1[n - 1], zcen = -0.002;
+  const pts = [[s * v.r * 0.95, v.y + 0.003, v.zb - 0.002], [s * (v.r * 0.95 + 0.012), v.y, v.zb - 0.014], [s * (v.cR + v.tpLen - 0.003), v.y - 0.004, v.zcan - v.tpBack + 0.006]];
+  [0.55, 0.95, 1.35, 1.75, 2.1].filter(a => a < A1 - 0.12).concat([A1]).forEach(a => pts.push([s * W * Math.sin(a), v.y - DR * Math.pow(a / A1, 1.3), zcen - D * Math.cos(a)]));
+  const rr = n === 1 ? 0.0058 : 0.0046, o = { label: `Rib ${n} (${sd})` };
+  tube(SK, `rib_${n}_${sd}`, pts, rr, mat.bone, o);
+  sph(SK, `rib_${n}_head_${sd}`, 0.0062, pts[0], mat.bone, o);
+  sph(SK, `rib_${n}_tubercle_${sd}`, 0.0055, pts[2], mat.bone, o);
+  const E = pts[pts.length - 1], co = { label: `Costal cartilage ${n} (${sd})` };
+  let T = null;
+  if (n <= 7) T = [s * 0.0185, YS[n - 1], 0.09]; else if (n <= 10) T = [s * PM[n - 8][0], PM[n - 8][1], PM[n - 8][2]];
+  if (T) tube(SK, `costal_cartilage_${n}_${sd}`, [E, [(E[0] + T[0]) / 2, (E[1] + T[1]) / 2 + 0.007, (E[2] + T[2]) / 2 + 0.005], T], 0.0056, mat.cartilage, co);
+  else sph(SK, `rib_${n}_tip_${sd}`, 0.0055, E, mat.cartilage, co);
+}
+plate('manubrium', poly([[-0.028, 0], [-0.01, -0.0045], [0.01, -0.0045], [0.028, 0], [0.026, -0.012], [0.017, -0.05], [-0.017, -0.05], [-0.026, -0.012]]), 0.012, mat.bone, [0, 1.372, 0.087], { label: 'Sternum (manubrium)' });
+plate('sternal_body', poly([[-0.0175, 0], [0.0175, 0], [0.0185, -0.108], [-0.0185, -0.108]]), 0.011, mat.bone, [0, 1.322, 0.09], { label: 'Sternum (body)' });
+sph(SK, 'xiphoid_process', 0.009, [0, 1.195, 0.09], mat.bone, { scale: [1, 2.3, 0.55], label: 'Xiphoid process' });
+for (const s of [-1, 1]) sph(SK, 'clavicular_notch_' + (s < 0 ? 'right' : 'left'), 0.006, [s * 0.027, 1.366, 0.087], mat.cartilage, { label: 'Sternoclavicular joint' });
+
+// skull, mandible, teeth, hyoid
+sph(SK, 'cranium', 0.092, [0, 1.642, 0], mat.skull, { scale: [0.87, 1.08, 1] });
+sph(SK, 'maxilla', 0.05, [0, 1.6, 0.04], mat.bone, { scale: [0.9, 0.85, 0.65], label: 'Skull (maxilla)' });
+sph(SK, 'nasal_aperture', 0.008, [0, 1.618, 0.088], mat.socket, { scale: [0.8, 1.3, 0.5], label: 'Nasal aperture' });
+reg(SK, 'upper_teeth', xf(new THREE.Mesh((() => { const g = new THREE.TorusGeometry(0.029, 0.0046, 6, 24, Math.PI); g.rotateX(Math.PI / 2); return g; })(), mat.teeth), [0, 1.572, 0.028], { scale: [1, 1, 0.85] }), { label: 'Upper teeth' });
+reg(SK, 'lower_teeth', xf(new THREE.Mesh((() => { const g = new THREE.TorusGeometry(0.027, 0.0046, 6, 24, Math.PI); g.rotateX(Math.PI / 2); return g; })(), mat.teeth), [0, 1.552, 0.028], { scale: [1, 1, 0.85] }), { label: 'Lower teeth' });
+tube(SK, 'mandible', [[-0.07, 1.618, -0.005], [-0.064, 1.568, 0.0], [-0.046, 1.545, 0.045], [0, 1.536, 0.068], [0.046, 1.545, 0.045], [0.064, 1.568, 0.0], [0.07, 1.618, -0.005]], 0.0072, mat.bone, { label: 'Mandible' });
+tube(SK, 'hyoid', [[-0.034, 1.53, -0.02], [-0.027, 1.533, -0.004], [-0.012, 1.535, 0.012], [0, 1.535, 0.018], [0.012, 1.535, 0.012], [0.027, 1.533, -0.004], [0.034, 1.53, -0.02]], 0.0036, mat.bone, { label: 'Hyoid bone' });
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left';
+  sph(SK, 'orbit_' + sd, 0.017, [s * 0.034, 1.64, 0.074], mat.socket, { label: `Orbit (${sd})` });
+  sph(SK, 'mandibular_condyle_' + sd, 0.0085, [s * 0.07, 1.618, -0.005], mat.bone, { label: 'Mandible' });
+  tube(SK, 'zygomatic_arch_' + sd, [[s * 0.078, 1.625, -0.002], [s * 0.071, 1.61, 0.038], [s * 0.05, 1.6, 0.064]], 0.0042, mat.bone, { label: `Zygomatic arch (${sd})` });
+}
+
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z], lb = t => `${t} (${sd})`;
+  // shoulder girdle
+  tube(SK, n('clavicle'), [P(0.027, 1.37, 0.088), P(0.06, 1.384, 0.076), P(0.11, 1.4, 0.042), P(0.15, 1.41, 0.018), P(0.176, 1.41, 0.005)], 0.0062, mat.bone, { label: lb('Clavicle') });
+  sph(SK, n('clavicle_sternal_end'), 0.0085, P(0.027, 1.37, 0.088), mat.bone, { label: lb('Clavicle') });
+  const sg = new THREE.Group(); sg.name = n('scapula_group'); sg.position.set(s * 0.055, 1.292, -0.106); sg.rotation.y = -s * 0.35; sg.updateMatrixWorld(true);
+  const L = p => sg.worldToLocal(V(...p)).toArray(), so = { label: lb('Scapula') };
+  sg.add(plate(n('scapula'), poly([[0, 0.045], [0.05, 0.05], [0.1, 0.035], [0.09, -0.005], [0.06, -0.04], [0.036, -0.068], [0.006, -0.052]], s), 0.004, mat.bone, [0, 0, 0], so));
+  sg.add(seg(SK, n('scapular_spine'), [s * 0.006, 0.028, -0.006], [s * 0.09, 0.042, -0.007], 0.0045, 0.0065, mat.bone, so));
+  sg.add(tube(SK, n('acromion'), [L(P(0.139, 1.334, -0.083)), L(P(0.158, 1.375, -0.06)), L(P(0.172, 1.404, -0.03)), L(P(0.176, 1.41, 0.002))], 0.0055, mat.bone, so));
+  sg.add(tube(SK, n('scapular_neck'), [L(P(0.1415, 1.3, -0.075)), L(P(0.158, 1.34, -0.05)), L(P(0.172, 1.372, -0.018))], 0.008, mat.bone, so));
+  sg.add(seg(SK, n('coracoid_process'), L(P(0.152, 1.385, -0.035)), L(P(0.162, 1.39, 0.02)), 0.0048, 0.004, mat.bone, so));
+  sg.add(sph(SK, n('glenoid_cavity'), 0.013, L(P(0.173, 1.376, -0.012)), mat.cartilage, { scale: [0.5, 1, 0.8], label: lb('Glenoid cavity') }));
+  G[SK].add(sg);
+  // humerus
+  sph(SK, n('humeral_head'), 0.021, P(0.188, 1.388, 0), mat.bone, { label: lb('Humerus') });
+  sph(SK, n('greater_tubercle'), 0.011, P(0.205, 1.377, 0.004), mat.bone, { label: lb('Humerus') });
+  sph(SK, n('lesser_tubercle'), 0.007, P(0.196, 1.372, 0.017), mat.bone, { label: lb('Humerus') });
+  tube(SK, n('humerus'), [P(0.2, 1.368, 0), P(0.214, 1.25, 0.002), P(0.226, 1.15, 0.001), P(0.232, 1.09, 0)], 0.0132, mat.bone, { label: lb('Humerus') });
+  sph(SK, n('deltoid_tuberosity'), 0.006, P(0.222, 1.27, 0.004), mat.bone, { label: lb('Humerus') });
+  sph(SK, n('humeral_condyle'), 0.016, P(0.232, 1.075, 0), mat.bone, { scale: [1.9, 0.8, 1], label: lb('Humerus') });
+  sph(SK, n('medial_epicondyle'), 0.008, P(0.212, 1.082, -0.004), mat.bone, { label: lb('Humerus') });
+  sph(SK, n('lateral_epicondyle'), 0.007, P(0.252, 1.082, 0), mat.bone, { label: lb('Humerus') });
+  sph(SK, n('trochlea'), 0.0115, P(0.231, 1.064, 0.006), mat.cartilage, { scale: [1.5, 0.75, 1], label: lb('Elbow joint') });
+  // forearm
+  sph(SK, n('olecranon'), 0.012, P(0.232, 1.078, -0.013), mat.bone, { label: lb('Ulna') });
+  tube(SK, n('ulna'), [P(0.234, 1.062, -0.005), P(0.242, 0.96, -0.005), P(0.255, 0.858, -0.004)], 0.0092, mat.bone, { label: lb('Ulna') });
+  sph(SK, n('ulnar_head'), 0.0085, P(0.256, 0.848, -0.004), mat.bone, { label: lb('Ulna') });
+  reg(SK, n('radial_head'), xf(new THREE.Mesh(new THREE.CylinderGeometry(0.0105, 0.0105, 0.006, 24), mat.bone), P(0.247, 1.066, 0.003)), { label: lb('Radius') });
+  reg(SK, n('radial_head_cartilage'), xf(new THREE.Mesh(new THREE.CylinderGeometry(0.0095, 0.0095, 0.002, 24), mat.cartilage), P(0.247, 1.0705, 0.003)), { label: lb('Elbow joint') });
+  tube(SK, n('radius'), [P(0.246, 1.055, 0.003), P(0.255, 0.95, 0.01), P(0.268, 0.852, 0.02)], 0.0085, mat.bone, { label: lb('Radius') });
+  sph(SK, n('distal_radius'), 0.013, P(0.268, 0.845, 0.02), mat.bone, { scale: [1.2, 0.7, 0.9], label: lb('Radius') });
+  // hand
+  [['scaphoid', 0.013, 0.006, 0, 0.0085], ['lunate', 0.003, 0.008, 0, 0.0075], ['triquetrum', -0.007, 0.005, -0.001, 0.007], ['pisiform', -0.011, 0, 0.009, 0.0055],
+   ['trapezium', 0.017, -0.008, 0.004, 0.0075], ['trapezoid', 0.008, -0.01, 0.002, 0.0065], ['capitate', -0.002, -0.011, 0, 0.0085], ['hamate', -0.012, -0.009, 0, 0.0078]]
+    .forEach(([nm, dx, dy, dz, r]) => sph(SK, n(nm), r, P(0.27 + dx, 0.828 + dy, 0.016 + dz), mat.bone, { label: lb('Carpal bones') }));
+  [['thumb', 0.288, [0.5, -0.8, 0.25], [0.04, 0.032, 0.026], 0.0062], ['index', 0.282, [0.07, -1, 0], [0.062, 0.032, 0.019, 0.016], 0.0058], ['middle', 0.272, [0, -1, 0], [0.06, 0.036, 0.022, 0.017], 0.0058],
+   ['ring', 0.262, [-0.06, -1, 0], [0.054, 0.033, 0.021, 0.016], 0.0056], ['little', 0.252, [-0.14, -1, 0], [0.048, 0.025, 0.014, 0.014], 0.0052]]
+    .forEach(([nm, x, d, lens, r0]) => digit(n('hand_' + nm), P(x, 0.812, 0.018), [s * d[0], d[1], d[2]], lens, r0, lb('Hand bones')));
+
+  // pelvis
+  const il = plate(n('ilium'), poly([[-0.035, 0], [-0.12, 0.025], [-0.135, 0.075], [-0.1, 0.125], [-0.04, 0.145], [0.03, 0.14], [0.075, 0.115], [0.085, 0.08], [0.065, 0.045], [0.04, 0.025]], s, 0.8), 0.012, mat.bone, P(0.088, 0.862, 0), { rot: [0, -s * 0.89, 0], label: lb('Pelvis (ilium)') });
+  tube(SK, n('ischium'), [P(0.088, 0.862, 0), P(0.098, 0.82, -0.028), P(0.092, 0.785, -0.026)], 0.0095, mat.bone, { label: lb('Pelvis (ischium)') });
+  sph(SK, n('ischial_tuberosity'), 0.0145, P(0.09, 0.783, -0.024), mat.bone, { label: lb('Pelvis (ischium)') });
+  tube(SK, n('ischiopubic_ramus'), [P(0.09, 0.785, -0.024), P(0.06, 0.785, 0.02), P(0.03, 0.8, 0.062), P(0.009, 0.82, 0.076)], 0.0078, mat.bone, { label: lb('Pelvis (pubis)') });
+  tube(SK, n('superior_pubic_ramus'), [P(0.088, 0.862, 0), P(0.065, 0.848, 0.04), P(0.035, 0.838, 0.068), P(0.009, 0.835, 0.076)], 0.0085, mat.bone, { label: lb('Pelvis (pubis)') });
+  sph(SK, n('pubic_symphysis'), 0.0085, P(0.007, 0.828, 0.076), mat.cartilage, { scale: [1, 1.7, 1], label: 'Pubic symphysis' });
+  // femur
+  sph(SK, n('femoral_head'), 0.022, P(0.083, 0.862, 0), mat.bone, { label: lb('Femur') });
+  seg(SK, n('femoral_neck'), P(0.083, 0.862, 0), P(0.108, 0.832, 0), 0.011, 0.013, mat.bone, { label: lb('Femur') });
+  sph(SK, n('greater_trochanter'), 0.017, P(0.118, 0.826, -0.004), mat.bone, { scale: [0.8, 1.2, 1], label: lb('Femur') });
+  tube(SK, n('femur'), [P(0.108, 0.82, 0), P(0.104, 0.7, 0.01), P(0.1, 0.6, 0.012), P(0.097, 0.5, 0.008)], 0.015, mat.bone, { label: lb('Femur') });
+  sph(SK, n('medial_condyle'), 0.02, P(0.083, 0.468, -0.008), mat.bone, { label: lb('Femur') });
+  sph(SK, n('lateral_condyle'), 0.02, P(0.113, 0.468, -0.008), mat.bone, { label: lb('Femur') });
+  sph(SK, n('patella'), 0.02, P(0.098, 0.468, 0.04), mat.bone, { scale: [1, 1.1, 0.5], label: lb('Patella') });
+  reg(SK, n('knee_cartilage'), xf(new THREE.Mesh(new THREE.CylinderGeometry(0.031, 0.031, 0.004, 28), mat.cartilage), P(0.098, 0.452, 0), { scale: [1.05, 1, 0.8] }), { label: lb('Knee cartilage') });
+  // tibia & fibula
+  reg(SK, n('tibial_plateau'), xf(new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.03, 0.01, 28), mat.bone), P(0.098, 0.444, 0), { scale: [1.05, 1, 0.8] }), { label: lb('Tibia') });
+  sph(SK, n('tibial_tuberosity'), 0.008, P(0.098, 0.425, 0.024), mat.bone, { label: lb('Tibia') });
+  tube(SK, n('tibia'), [P(0.099, 0.44, 0.002), P(0.099, 0.3, 0.003), P(0.1, 0.18, 0.0), P(0.1, 0.09, 0)], 0.0155, mat.bone, { label: lb('Tibia') });
+  sph(SK, n('distal_tibia'), 0.019, P(0.1, 0.087, 0), mat.bone, { scale: [1.2, 0.8, 1], label: lb('Tibia') });
+  sph(SK, n('medial_malleolus'), 0.011, P(0.09, 0.07, -0.002), mat.bone, { label: lb('Tibia') });
+  sph(SK, n('fibular_head'), 0.01, P(0.123, 0.44, -0.01), mat.bone, { label: lb('Fibula') });
+  tube(SK, n('fibula'), [P(0.122, 0.43, -0.009), P(0.121, 0.26, -0.01), P(0.119, 0.088, -0.01)], 0.0058, mat.bone, { label: lb('Fibula') });
+  sph(SK, n('lateral_malleolus'), 0.011, P(0.118, 0.066, -0.01), mat.bone, { scale: [0.7, 1.4, 0.9], label: lb('Fibula') });
+  // foot
+  sph(SK, n('talus'), 0.021, P(0.1, 0.052, -0.004), mat.bone, { scale: [1, 0.7, 1.15], label: lb('Talus') });
+  reg(SK, n('talus_cartilage'), xf(new THREE.Mesh(new THREE.CylinderGeometry(0.0155, 0.0155, 0.003, 24), mat.cartilage), P(0.1, 0.0665, -0.004)), { label: lb('Ankle cartilage') });
+  sph(SK, n('calcaneus'), 0.024, P(0.104, 0.03, -0.04), mat.bone, { scale: [0.75, 0.95, 1.5], label: lb('Calcaneus') });
+  sph(SK, n('navicular'), 0.013, P(0.094, 0.04, 0.03), mat.bone, { scale: [1.3, 1, 0.6], label: lb('Foot bones') });
+  sph(SK, n('cuboid'), 0.013, P(0.118, 0.028, 0.028), mat.bone, { label: lb('Foot bones') });
+  [0.092, 0.103, 0.112].forEach((x, i) => sph(SK, n('cuneiform_' + (i + 1)), 0.0088, P(x, 0.032, 0.052), mat.bone, { label: lb('Foot bones') }));
+  [['hallux', [-0.04, -0.1, 1], [0.065, 0.03, 0.022], 0.0095], ['toe2', [0, -0.1, 1], [0.07, 0.026, 0.015, 0.01], 0.0072], ['toe3', [0.03, -0.1, 1], [0.066, 0.023, 0.013, 0.009], 0.007],
+   ['toe4', [0.06, -0.1, 1], [0.062, 0.021, 0.012, 0.008], 0.0066], ['toe5', [0.1, -0.1, 1], [0.06, 0.018, 0.01, 0.008], 0.0062]]
+    .forEach(([nm, d, lens, r0], i) => digit(n('foot_' + nm), P(0.094 + i * 0.0075, 0.02, 0.058), [s * d[0], d[1], d[2]], lens.map(l => l * 0.94), r0, lb('Foot bones')));
+}
+
+// ───────── MUSCULAR ─────────
+sph('muscular', 'trapezius', 0.06, [0, 1.42, -0.085], mat.muscle, { scale: [1.8, 1.5, 0.35] });
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z];
+  seg('muscular', n('sternocleidomastoid'), P(0.015, 1.43, 0.05), P(0.062, 1.56, -0.005), 0.011, 0.011, mat.muscle);
+  sph('muscular', n('pectoralis_major'), 0.075, P(0.08, 1.35, 0.092), mat.muscle, { scale: [1.15, 0.8, 0.33] });
+  sph('muscular', n('deltoid'), 0.05, P(0.2, 1.38, 0), mat.muscle, { scale: [0.9, 1.15, 0.95] });
+  sph('muscular', n('latissimus_dorsi'), 0.05, P(0.1, 1.22, -0.082), mat.muscle, { scale: [1.35, 2.2, 0.32] });
+  sph('muscular', n('external_oblique'), 0.06, P(0.15, 1.12, 0.035), mat.muscle, { scale: [0.45, 1.5, 0.8] });
+  for (let i = 0; i < 4; i++) box('muscular', n('rectus_abdominis_' + i), [0.052, 0.058, 0.014], P(0.029, 1.2 - i * 0.065, 0.085), mat.muscle, { label: 'Rectus abdominis (' + sd + ')' });
+  seg('muscular', n('biceps'), P(0.2, 1.35, 0.025), P(0.232, 1.12, 0.02), 0.03, 0.021, mat.muscle);
+  seg('muscular', n('triceps'), P(0.205, 1.34, -0.026), P(0.232, 1.12, -0.022), 0.028, 0.02, mat.muscle);
+  seg('muscular', n('forearm_flexors'), P(0.238, 1.06, 0.01), P(0.264, 0.87, 0.012), 0.034, 0.018, mat.muscle);
+  sph('muscular', n('gluteus_maximus'), 0.07, P(0.09, 0.9, -0.055), mat.muscle, { scale: [1, 1, 0.7] });
+  seg('muscular', n('quadriceps'), P(0.09, 0.83, 0.04), P(0.098, 0.5, 0.036), 0.07, 0.04, mat.muscle);
+  seg('muscular', n('hamstrings'), P(0.09, 0.83, -0.04), P(0.098, 0.5, -0.036), 0.06, 0.035, mat.muscle);
+  seg('muscular', n('gastrocnemius'), P(0.1, 0.45, -0.03), P(0.1, 0.22, -0.016), 0.045, 0.021, mat.muscle);
+  seg('muscular', n('tibialis_anterior'), P(0.1, 0.44, 0.03), P(0.1, 0.15, 0.026), 0.028, 0.013, mat.muscle);
+}
+
+// ───────── CIRCULATORY ─────────
+sph('circulatory', 'heart', 0.05, [0.035, 1.3, 0.04], mat.heart, { scale: [0.9, 1.1, 0.85], rot: [0, 0, -0.4] });
+sph('circulatory', 'right_atrium', 0.028, [-0.01, 1.33, 0.045], mat.heart, { label: 'Heart' });
+tube('circulatory', 'aorta', [[0.03, 1.34, 0.02], [0.02, 1.41, 0.015], [0.04, 1.435, -0.01], [0.05, 1.4, -0.035], [0.035, 1.3, -0.03], [0.02, 1.1, -0.03], [0.005, 0.95, -0.025], [0, 0.9, -0.02]], 0.011, mat.artery, { label: 'Aorta' });
+tube('circulatory', 'vena_cava', [[-0.02, 1.43, 0.01], [-0.02, 1.34, 0.01], [-0.022, 1.2, -0.03], [-0.012, 1.0, -0.03], [0, 0.9, -0.022]], 0.012, mat.vein, { label: 'Vena cava' });
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z];
+  tube('circulatory', n('carotid_artery'), [P(0.018, 1.42, 0.015), P(0.025, 1.5, 0.022), P(0.03, 1.585, 0.025)], 0.0055, mat.artery);
+  tube('circulatory', n('jugular_vein'), [P(0.03, 1.43, 0.008), P(0.04, 1.5, 0.012), P(0.045, 1.585, 0.01)], 0.0065, mat.vein);
+  tube('circulatory', n('brachial_artery'), [P(0.03, 1.43, 0.012), P(0.15, 1.42, 0.012), P(0.21, 1.36, 0.022), P(0.228, 1.1, 0.022), P(0.255, 0.9, 0.032), P(0.275, 0.82, 0.03)], 0.0052, mat.artery);
+  tube('circulatory', n('brachial_vein'), [P(0.04, 1.42, -0.005), P(0.15, 1.41, -0.005), P(0.2, 1.36, 0.006), P(0.218, 1.1, 0.008), P(0.245, 0.9, 0.018), P(0.265, 0.82, 0.016)], 0.0055, mat.vein);
+  tube('circulatory', n('femoral_artery'), [[0, 0.9, -0.02], P(0.04, 0.87, 0.0), P(0.085, 0.8, 0.022), P(0.092, 0.6, 0.022), P(0.098, 0.45, 0.002), P(0.1, 0.25, 0.002), P(0.1, 0.08, 0.012)], 0.007, mat.artery);
+  tube('circulatory', n('femoral_vein'), [[0, 0.9, -0.025], P(0.035, 0.87, -0.012), P(0.074, 0.8, 0.008), P(0.082, 0.6, 0.008), P(0.088, 0.45, -0.012), P(0.09, 0.25, -0.012), P(0.092, 0.08, 0.0)], 0.0085, mat.vein);
+  tube('circulatory', n('pulmonary_artery'), [[0.0, 1.36, 0.04], P(0.04, 1.36, 0.02), P(0.08, 1.33, 0.0)], 0.007, mat.vein, { label: 'Pulmonary vessels (' + sd + ')' });
+  tube('circulatory', n('pulmonary_vein'), [[0.01, 1.32, 0.0], P(0.05, 1.31, -0.012), P(0.085, 1.28, -0.012)], 0.0065, mat.artery, { label: 'Pulmonary vessels (' + sd + ')' });
+}
+
+// ───────── RESPIRATORY ─────────
+cap('respiratory', 'larynx', 0.013, 0.02, [0, 1.52, 0.006], mat.airway);
+tube('respiratory', 'trachea', [[0, 1.515, 0.006], [0, 1.43, 0.0], [0, 1.31, -0.008]], 0.0105, mat.airway);
+reg('respiratory', 'diaphragm', xf(new THREE.Mesh(new THREE.SphereGeometry(0.16, 48, 16, 0, Math.PI * 2, 0, Math.PI / 2), mat.diaphragm), [0, 1.09, -0.005], { scale: [1.0, 0.32, 0.64] }));
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z];
+  sph('respiratory', n('lung'), 0.1, P(0.09, 1.275, -0.005), mat.lung, { scale: [s < 0 ? 0.55 : 0.49, 1.15, 0.85] });
+  tube('respiratory', n('main_bronchus'), [[0, 1.31, -0.008], P(0.035, 1.295, -0.008), P(0.075, 1.268, -0.004)], 0.0075, mat.airway, { label: 'Bronchi (' + sd + ')' });
+  [[0.092, 1.4], [0.115, 1.3], [0.09, 1.2]].forEach(([x, y], i) => tube('respiratory', n('bronchus_' + i), [P(0.075, 1.268, -0.004), P((0.075 + x) / 2, (1.268 + y) / 2, -0.004), P(x, y, -0.004)], 0.0045, mat.airway, { label: 'Bronchi (' + sd + ')' }));
+}
+
+// ───────── DIGESTIVE ─────────
+const DG = 'digestive';
+const dm = {
+  gut: M('esophagus', 0xd9907f, 0.6), stomach: M('stomach', 0xe3b2a0, 0.55), liver: M('liver', 0x9a4038, 0.5), gall: M('gallbladder', 0x1f7a52, 0.4),
+  bile: M('bile_duct', 0x2f8a5d, 0.5), pancreas: M('pancreas', 0xe0a0a4, 0.65, { transparent: true, opacity: 0.6, depthWrite: false }), spleen: M('spleen', 0x7a4a6a, 0.55), tongue: M('tongue', 0xd06a68, 0.6),
+  duo: M('duodenum', 0xe6a090, 0.5), jej: M('jejunum', 0xeaa593, 0.45), ile: M('ileum', 0xe8b4a2, 0.45), colon: M('large_intestine', 0xb38b69, 0.6),
+  omentum: M('greater_omentum', 0xe8d58a, 0.8, { transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide }),
+};
+const GI = { colon: [] };
+function varTube(name, pts, rf, mt, o = {}, R = 18) {
+  const c = new THREE.CatmullRomCurve3(pts.map(p => V(...p))), S = pts.length * 12;
+  const g = new THREE.TubeGeometry(c, S, 1, R, false), pos = g.attributes.position;
+  for (let i = 0; i <= S; i++) { const ct = c.getPointAt(i / S); for (let j = 0; j <= R; j++) { const k = i * (R + 1) + j, r = rf(i / S, j / R); pos.setXYZ(k, ct.x + (pos.getX(k) - ct.x) * r, ct.y + (pos.getY(k) - ct.y) * r, ct.z + (pos.getZ(k) - ct.z) * r); } }
+  g.computeVertexNormals(); return reg(DG, name, new THREE.Mesh(g, mt), o);
+}
+function colon(name, pts, r, label) {
+  GI.colon.push(pts);
+  const c = new THREE.CatmullRomCurve3(pts.map(p => V(...p)));
+  reg(DG, name, new THREE.Mesh(new THREE.TubeGeometry(c, pts.length * 8, r * 0.88, 12, false), dm.colon), { label });
+  const n = Math.max(3, Math.round(c.getLength() / 0.0175));
+  for (let i = 0; i < n; i++) {
+    const u = (i + 0.5) / n, m = new THREE.Mesh(new THREE.SphereGeometry(r * 1.18, 18, 12), dm.colon);
+    m.position.copy(c.getPointAt(u)); m.quaternion.setFromUnitVectors(Y, c.getTangentAt(u)); m.scale.set(1, 0.55, 1); reg(DG, `${name}_haustrum_${i}`, m, { label });
+  }
+}
+// mouth and gullet
+sph(DG, 'tongue', 0.02, [0, 1.563, 0.03], dm.tongue, { scale: [1, 0.4, 1.3] });
+varTube('pharynx', [[0, 1.575, 0.0], [0, 1.545, -0.012], [0, 1.52, -0.012]], () => 0.0155, dm.gut);
+{
+  const P0 = [[0, 1.505, -0.014], [0, 1.46, -0.02], [0, 1.4, -0.024], [0.004, 1.36, -0.027], [0.01, 1.3, -0.03], [0.016, 1.24, -0.026], [0.024, 1.18, -0.012], [0.034, 1.14, -0.006], [0.05, 1.118, 0.003], [0.062, 1.11, 0.005]];
+  GI.eso = P0; const c = new THREE.CatmullRomCurve3(P0.map(p => V(...p))), gs = (y, c0, w) => Math.exp(-(((y - c0) / w) ** 2));
+  const rf = y => 0.0088 - 0.0013 * gs(y, 1.505, 0.012) - 0.0012 * gs(y, 1.31, 0.02) - 0.0012 * gs(y, 1.14, 0.012) + 0.0022 * gs(y, 1.113, 0.012);
+  const N = 400, ys = []; for (let i = 0; i <= N; i++) ys.push(c.getPoint(i / N).y);
+  const tAt = y => { for (let i = 0; i < N; i++) if (ys[i] >= y && ys[i + 1] < y) return (i + (ys[i] - y) / (ys[i] - ys[i + 1])) / N; return 1; };
+  const B = [0, tAt(1.372), tAt(1.31), tAt(1.21), tAt(1.136), 1];
+  const wall = (col, nm) => M(nm, col, 0.65, { transparent: true, opacity: 0.78, depthWrite: false });
+  const stri = wall(0xa5473b, 'esophagus_striated_muscle'), mixd = wall(0xc0675a, 'esophagus_mixed_muscle'), smth = wall(0xd9907f, 'esophagus_smooth_muscle');
+  [['cervical', 'cervical part', stri], ['upper_thoracic', 'upper thoracic part', stri], ['mid_thoracic', 'mid-thoracic part', mixd], ['lower_thoracic', 'lower thoracic part', smth], ['abdominal', 'abdominal part', smth]].forEach(([k, lbl, mt], i) => {
+    const t0 = B[i], t1 = Math.min(1, B[i + 1] + 0.004), pts = [];
+    for (let j = 0; j <= 7; j++) pts.push(c.getPoint(t0 + ((t1 - t0) * j) / 7).toArray());
+    const m = varTube('esophagus_' + k, pts, u => rf(c.getPoint(t0 + (t1 - t0) * u).y), mt, { label: 'Esophagus, ' + lbl }); m.renderOrder = 1;
+  });
+  const all = []; for (let j = 0; j <= 24; j++) all.push(c.getPoint(j / 24).toArray());
+  varTube('esophageal_mucosa', all, u => rf(c.getPoint(u).y) * 0.5, M('esophageal_mucosa', 0xd97d78, 0.5), { label: 'Esophageal mucosa and submucosa' });
+  const adv = varTube('esophageal_adventitia', all, u => rf(c.getPoint(u).y) * 1.2, M('adventitia', 0xe6d8c3, 0.8, { transparent: true, opacity: 0.2, depthWrite: false }));
+  delete adv.userData.label; adv.renderOrder = 2;
+  const fr = c.computeFrenetFrames(60, false), fm = M('longitudinal_muscle', 0x8f3a30, 0.6);
+  for (let k = 0; k < 8; k++) {
+    const th = (k / 8) * 2 * Math.PI, pts = [];
+    for (let i = 0; i <= 60; i++) { const p = c.getPoint(i / 60), r = rf(p.y); pts.push(p.clone().addScaledVector(fr.normals[i], Math.cos(th) * r).addScaledVector(fr.binormals[i], Math.sin(th) * r).toArray()); }
+    tube(DG, 'longitudinal_muscle_' + k, pts, 0.0007, fm, { label: 'Esophagus, longitudinal muscle layer' });
+  }
+  const rm = M('circular_muscle', 0xb5564a, 0.6), Zv = V(0, 0, 1), nR = Math.round(c.getLength() / 0.012);
+  for (let i = 0; i < nR; i++) {
+    const u = (i + 0.5) / nR, p = c.getPointAt(u), m = new THREE.Mesh(new THREE.TorusGeometry(rf(p.y) * 0.97, 0.0007, 6, 28), rm);
+    m.position.copy(p); m.quaternion.setFromUnitVectors(Zv, c.getTangentAt(u)); reg(DG, 'circular_muscle_' + i, m, { label: 'Esophagus, circular muscle layer' });
+  }
+  const hg = new THREE.TorusGeometry(0.0125, 0.0035, 8, 28); hg.rotateX(Math.PI / 2);
+  reg(DG, 'esophageal_hiatus', xf(new THREE.Mesh(hg, mat.diaphragm), [0.034, 1.138, -0.006]), { label: 'Esophageal hiatus (diaphragm)' });
+  [1.3, 1.24, 1.19].forEach((y, i) => { const p = c.getPoint(tAt(y)); tube('circulatory', 'esophageal_artery_' + (i + 1), [[0.03 + i * 0.002, y, -0.03], [(0.03 + p.x) / 2, y, -0.028], p.toArray()], 0.0025, mat.artery, { label: 'Esophageal artery (from aorta)' }); });
+  tube('circulatory', 'azygos_vein', [[-0.018, 0.99, -0.04], [-0.02, 1.1, -0.045], [-0.02, 1.25, -0.045], [-0.02, 1.36, -0.035], [-0.022, 1.41, -0.005], [-0.02, 1.43, 0.01]], 0.0042, mat.vein, { label: 'Azygos vein (esophageal drainage)' });
+}
+
+// stomach: cardia, fundus, body, antrum, pylorus; curvatures; layered wall
+const stoP = [[0.097, 1.1, 0.002], [0.092, 1.078, 0.028], [0.068, 1.035, 0.044], [0.03, 1.022, 0.052], [-0.003, 1.03, 0.05]];
+const stoC = new THREE.CatmullRomCurve3(stoP.map(p => V(...p)));
+const sst = t => { t = Math.min(1, Math.max(0, (t - 0.3) / 0.6)); return t * t * (3 - 2 * t); };
+const sr = u => 0.0165 + 0.0125 * (1 - sst(u)) - 0.0035 * Math.exp(-(((u - 0.62) / 0.07) ** 2));
+function parts(c, rf, cuts, specs, n = 8) {
+  specs.forEach(([name, label, mt], i) => {
+    const t0 = cuts[i], t1 = Math.min(1, cuts[i + 1] + 0.004), pts = [];
+    for (let j = 0; j <= n; j++) pts.push(c.getPoint(t0 + ((t1 - t0) * j) / n).toArray());
+    varTube(name, pts, u => rf(t0 + (t1 - t0) * u), mt, { label }).renderOrder = 1;
+  });
+}
+const stoMt = M('stomach_wall', 0xe3b2a0, 0.55, { transparent: true, opacity: 0.6, depthWrite: false });
+parts(stoC, sr, [0, 0.3, 0.62, 1], [['stomach_fundus_body', 'Stomach, fundus', stoMt], ['stomach_body', 'Stomach, body (corpus)', stoMt], ['stomach_antrum', 'Stomach, pyloric antrum', stoMt]]);
+sph(DG, 'stomach_fundus_cap', 0.029, stoP[0], stoMt, { label: 'Stomach, fundus (fornix)' }).renderOrder = 1;
+sph(DG, 'stomach_cardia', 0.017, [0.07, 1.105, 0.004], stoMt, { label: 'Stomach, cardia' }).renderOrder = 1;
+varTube('stomach_serosa', stoP, u => sr(u) * 1.07, M('serosa', 0xf0d8cc, 0.4, { transparent: true, opacity: 0.2, depthWrite: false }), { label: 'Stomach serosa (visceral peritoneum)' }).renderOrder = 2;
+varTube('gastric_mucosa', stoP, (u, a) => sr(u) * 0.8 * (1 + 0.1 * Math.cos(a * 2 * Math.PI * 8)) * (1 + 0.04 * Math.sin(u * 45)), M('gastric_mucosa', 0xe0928f, 0.45), { label: 'Gastric mucosa (rugae)' }, 48);
+{
+  const fr = stoC.computeFrenetFrames(60, false), lm = M('stomach_longitudinal_muscle', 0xc77d70, 0.6), om = M('stomach_oblique_muscle', 0xa85a50, 0.6), cm = M('stomach_circular_muscle', 0xb86a5c, 0.6);
+  for (let k = 0; k < 10; k++) { const th = (k / 10) * 2 * Math.PI, pts = [];
+    for (let i = 0; i <= 60; i++) { const p = stoC.getPoint(i / 60), r = sr(i / 60); pts.push(p.clone().addScaledVector(fr.normals[i], Math.cos(th) * r).addScaledVector(fr.binormals[i], Math.sin(th) * r).toArray()); }
+    tube(DG, 'stomach_longitudinal_muscle_' + k, pts, 0.0009, lm, { label: 'Stomach, longitudinal muscle layer' }); }
+  for (let k = 0; k < 5; k++) { const pts = [];
+    for (let i = 0; i <= 80; i++) { const u = (i / 80) * 0.78, th = (k / 5) * 2 * Math.PI + u * 2 * Math.PI * 2.2, p = stoC.getPoint(u), r = sr(u) * 0.985, j = Math.min(60, Math.round(u * 60));
+      pts.push(p.clone().addScaledVector(fr.normals[j], Math.cos(th) * r).addScaledVector(fr.binormals[j], Math.sin(th) * r).toArray()); }
+    tube(DG, 'stomach_oblique_muscle_' + k, pts, 0.0009, om, { label: 'Stomach, oblique muscle layer' }); }
+  const nR = Math.round(stoC.getLength() / 0.0095);
+  for (let i = 0; i < nR; i++) { const u = (i + 0.5) / nR, p = stoC.getPointAt(u), m = new THREE.Mesh(new THREE.TorusGeometry(sr(u) * 0.99, 0.0009, 6, 32), cm);
+    m.position.copy(p); m.quaternion.setFromUnitVectors(V(0, 0, 1), stoC.getTangentAt(u)); reg(DG, 'stomach_circular_muscle_' + i, m, { label: 'Stomach, circular muscle layer' }); }
+  const sm = M('sphincter', 0xb04a40, 0.55);
+  const ps = new THREE.Mesh(new THREE.TorusGeometry(0.0138, 0.0042, 10, 28), sm); ps.position.set(...stoP[4]); ps.quaternion.setFromUnitVectors(V(0, 0, 1), stoC.getTangent(1)); reg(DG, 'pyloric_sphincter', ps, { label: 'Pyloric sphincter' });
+  const le = new THREE.Mesh(new THREE.TorusGeometry(0.0112, 0.0025, 10, 24), sm); le.position.set(0.058, 1.112, 0.004); le.quaternion.setFromUnitVectors(V(0, 0, 1), V(0.8, -0.55, 0.2).normalize()); reg(DG, 'lower_esophageal_sphincter', le, { label: 'Lower oesophageal (gastro-oesophageal) sphincter' });
+  tube(DG, 'lesser_curvature_gastric_artery', [[0.068, 1.105, 0.004], [0.062, 1.078, 0.028], [0.048, 1.05, 0.044], [0.028, 1.039, 0.052], [0.004, 1.04, 0.05]], 0.0022, mat.artery, { label: 'Left/right gastric arteries (lesser curvature)' });
+  tube(DG, 'greater_curvature_gastroepiploic_artery', [[0.126, 1.09, 0.004], [0.12, 1.07, 0.03], [0.098, 1.025, 0.046], [0.065, 1.007, 0.052], [0.03, 1.005, 0.057], [0.0, 1.014, 0.055]], 0.0022, mat.artery, { label: 'Gastroepiploic arteries (greater curvature)' });
+  tube(DG, 'greater_curvature_gastroepiploic_vein', [[0.127, 1.088, 0.007], [0.121, 1.068, 0.033], [0.099, 1.023, 0.049], [0.066, 1.005, 0.055], [0.03, 1.003, 0.06], [0.0, 1.012, 0.058]], 0.0022, mat.vein, { label: 'Gastroepiploic veins (greater curvature)' });
+  const A = [[0.068, 1.105, 0.004], [0.062, 1.078, 0.028], [0.048, 1.05, 0.044], [0.028, 1.039, 0.052], [0.004, 1.04, 0.05]], H = [[0.02, 1.105, 0.015], [0.016, 1.085, 0.025], [0.006, 1.065, 0.035], [-0.012, 1.052, 0.045], [-0.03, 1.045, 0.05]];
+  const g = new THREE.BufferGeometry(), pos = [], idx = [];
+  for (let i = 0; i < 5; i++) { pos.push(...A[i], ...H[i]); if (i < 4) idx.push(2 * i, 2 * i + 1, 2 * i + 2, 2 * i + 1, 2 * i + 3, 2 * i + 2); }
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
+  reg(DG, 'lesser_omentum', new THREE.Mesh(g, M('lesser_omentum', 0xe8d9b5, 0.8, { transparent: true, opacity: 0.4, depthWrite: false, side: THREE.DoubleSide })), { label: 'Lesser omentum (gastrohepatic ligament)' });
+}
+// liver, gallbladder, bile duct
+sph(DG, 'liver_right_lobe', 0.075, [-0.07, 1.075, 0.025], dm.liver, { scale: [1.15, 0.62, 0.8], rot: [0, 0, 0.12], label: 'Liver' });
+sph(DG, 'liver_left_lobe', 0.05, [0.02, 1.097, 0.045], dm.liver, { scale: [1.5, 0.5, 0.7], rot: [0, 0, -0.15], label: 'Liver' });
+sph(DG, 'liver_caudate_lobe', 0.02, [-0.015, 1.07, -0.02], dm.liver, { label: 'Liver' });
+sph(DG, 'gallbladder', 0.013, [-0.052, 1.028, 0.066], dm.gall, { scale: [0.8, 1.6, 0.8], rot: [0, 0, 0.2] });
+tube(DG, 'bile_duct', [[-0.047, 1.04, 0.058], [-0.045, 1.03, 0.045], [-0.045, 1.012, 0.024], [-0.0455, 1.0, 0.011]], 0.0032, dm.bile, { label: 'Bile duct' });
+// pancreas, spleen
+varTube('pancreas', [[-0.03, 0.997, -0.003], [-0.012, 1.015, -0.015], [0.01, 1.03, -0.03], [0.05, 1.05, -0.04], [0.095, 1.07, -0.045]], u => 0.0165 * (1 - 0.45 * Math.min(1, u * 2.2)), dm.pancreas);
+sph(DG, 'spleen', 0.04, [0.123, 1.075, -0.04], dm.spleen, { scale: [0.45, 1, 0.65], rot: [0, 0, 0.2] });
+// duodenum and small intestine
+const Dp = [[-0.004, 1.03, 0.05], [-0.035, 1.04, 0.035], [-0.05, 1.015, 0.018], [-0.05, 0.99, 0.005], [-0.03, 0.975, -0.012], [0, 0.98, -0.03], [0.03, 0.998, -0.04], [0.04, 1.02, -0.04]];
+const Dc = new THREE.CatmullRomCurve3(Dp.map(p => V(...p))), Dl = Dc.getLength();
+const duoMt = M('duodenum', 0xe6a090, 0.5, { transparent: true, opacity: 0.62, depthWrite: false });
+parts(Dc, t => 0.0125 + 0.002 * Math.exp(-((t / 0.15) ** 2)), [0, 0.2, 0.45, 0.85, 1], [['duodenum_superior', 'Duodenum, superior part (bulb)', duoMt], ['duodenum_descending', 'Duodenum, descending part', duoMt], ['duodenum_horizontal', 'Duodenum, horizontal part', duoMt], ['duodenum_ascending', 'Duodenum, ascending part', duoMt]]);
+varTube('duodenal_mucosa', Dp, (u, a) => 0.0125 * 0.78 * (1 + 0.12 * Math.abs(Math.sin(u * Dl / 0.0055 * Math.PI))), M('duodenal_mucosa', 0xd9726a, 0.45), { label: 'Duodenal mucosa with plicae circulares' }, 24);
+sph(DG, 'ampulla_of_vater', 0.0042, [-0.0455, 1.0, 0.011], M('ampulla', 0xf3e3b8, 0.5), { label: 'Ampulla of Vater (major duodenal papilla)' });
+tube(DG, 'pancreatic_duct', [[0.09, 1.068, -0.045], [0.05, 1.049, -0.04], [0.01, 1.029, -0.03], [-0.012, 1.014, -0.015], [-0.03, 1.0, -0.004], [-0.0455, 1.0, 0.011]], 0.0022, M('pancreatic_duct', 0xf3e3b8, 0.5), { label: 'Pancreatic duct' });
+{
+  const N = 260, pts = [[0.04, 1.02, -0.04]];
+  for (let k = 1; k < N; k++) { const t = k / N; pts.push([0.068 * Math.sin(2 * Math.PI * 6.3 * t + 0.5) * (0.85 + 0.15 * Math.sin(4 * Math.PI * t)), 0.945 + 0.042 * Math.sin(2 * Math.PI * 4.7 * t + 1.2), 0.035 + 0.026 * Math.sin(2 * Math.PI * 8.6 * t)]); }
+  pts.push([-0.095, 0.905, 0.03]); GI.si = pts;
+  const cut = Math.round(N * 0.4), PJ = pts.slice(0, cut + 1), PI = pts.slice(cut);
+  const mk = (nm, label, P, r0, r1, wallMt, mucMt, k) => {
+    const c = new THREE.CatmullRomCurve3(P.map(p => V(...p))), Ln = c.getLength(), rf = u => r0 + (r1 - r0) * u;
+    varTube(nm + '_wall', P, rf, wallMt, { label }).renderOrder = 1;
+    varTube(nm + '_mucosa', P, (u, a) => rf(u) * 0.76 * (1 + k * Math.abs(Math.sin(u * Ln / 0.007 * Math.PI))), mucMt, { label: label + ' mucosa (plicae circulares)' }, 20);
+    return c;
+  };
+  mk('jejunum', 'Jejunum', PJ, 0.0105, 0.0098, M('jejunum', 0xeaa593, 0.45, { transparent: true, opacity: 0.62, depthWrite: false }), M('jejunal_mucosa', 0xd9726a, 0.45), 0.22);
+  const ci = mk('ileum', 'Ileum', PI, 0.0092, 0.0078, M('ileum', 0xe8b4a2, 0.45, { transparent: true, opacity: 0.62, depthWrite: false }), M('ileal_mucosa', 0xd98a80, 0.45), 0.1);
+  const fr = ci.computeFrenetFrames(120, false), pm = M('peyers_patch', 0xf3e3b8, 0.5);
+  for (let i = 0; i < 8; i++) { const j = Math.round(120 * (0.7 + i * 0.035)), p = ci.getPoint(j / 120), N2 = fr.normals[j], r = 0.0092 - 0.0014 * (j / 120);
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.0038, 14, 10), pm); m.position.copy(p).addScaledVector(N2, r * 0.97); m.quaternion.setFromUnitVectors(Y, N2); m.scale.set(1.6, 0.4, 1.3); reg(DG, 'peyers_patch_' + i, m, { label: "Peyer's patch (distal ileum)" }); }
+  const iv = new THREE.Mesh(new THREE.TorusGeometry(0.0078, 0.003, 8, 20), M('ileocecal_valve', 0xc97b6e, 0.55)); iv.position.set(-0.097, 0.902, 0.03); iv.quaternion.setFromUnitVectors(V(0, 0, 1), V(-0.4, -0.1, 0).normalize()); reg(DG, 'ileocecal_valve', iv, { label: 'Ileocecal valve' });
+  [[0.1, PJ], [0.35, PJ], [0.7, PJ], [0.15, PI], [0.4, PI], [0.65, PI], [0.9, PI]].forEach(([u, P], i) => { const c = new THREE.CatmullRomCurve3(P.map(p => V(...p))), b = c.getPoint(u); tube('circulatory', 'mesenteric_artery_branch_' + i, [[0.0, 0.97, 0.012], [b.x * 0.4, (0.97 + b.y) / 2 + 0.01, (0.012 + b.z) / 2], b.toArray()], 0.0022, mat.artery, { label: 'Jejunal and ileal arteries' }); });
+}
+tube('circulatory', 'celiac_trunk', [[0.021, 1.12, -0.026], [0.026, 1.113, -0.02], [0.03, 1.108, -0.008]], 0.0035, mat.artery, { label: 'Celiac trunk' });
+tube('circulatory', 'left_gastric_artery', [[0.03, 1.108, -0.008], [0.05, 1.11, 0.0], [0.068, 1.105, 0.004]], 0.0026, mat.artery, { label: 'Left gastric artery' });
+tube('circulatory', 'splenic_artery', [[0.03, 1.108, -0.008], [0.05, 1.075, -0.03], [0.09, 1.082, -0.045], [0.123, 1.078, -0.04]], 0.0028, mat.artery, { label: 'Splenic artery' });
+tube('circulatory', 'common_hepatic_artery', [[0.03, 1.108, -0.008], [0.0, 1.075, 0.0], [-0.03, 1.062, 0.02], [-0.04, 1.062, 0.03]], 0.0028, mat.artery, { label: 'Hepatic artery' });
+tube('circulatory', 'superior_mesenteric_artery', [[0.012, 1.085, -0.026], [0.006, 1.03, -0.02], [0.0, 0.985, 0.0], [0.0, 0.955, 0.012]], 0.004, mat.artery, { label: 'Superior mesenteric artery' });
+tube('circulatory', 'superior_mesenteric_vein', [[-0.004, 0.955, 0.012], [-0.006, 0.985, -0.002], [-0.008, 1.0, -0.012]], 0.0048, mat.vein, { label: 'Superior mesenteric vein' });
+tube('circulatory', 'splenic_vein', [[0.12, 1.07, -0.048], [0.09, 1.065, -0.05], [0.05, 1.045, -0.048], [0.01, 1.025, -0.036], [-0.008, 1.0, -0.012]], 0.0035, mat.vein, { label: 'Splenic vein' });
+tube('circulatory', 'portal_vein', [[-0.008, 1.0, -0.012], [-0.02, 1.03, 0.0], [-0.032, 1.055, 0.025], [-0.04, 1.065, 0.032]], 0.0058, mat.vein, { label: 'Portal vein' });
+// large intestine with haustra
+sph(DG, 'cecum', 0.024, [-0.1, 0.895, 0.03], dm.colon, { scale: [1, 1.1, 1], label: 'Cecum' });
+varTube('appendix', [[-0.095, 0.875, 0.03], [-0.09, 0.855, 0.04], [-0.082, 0.84, 0.036]], () => 0.0042, dm.colon, { label: 'Vermiform appendix' });
+colon('ascending_colon', [[-0.1, 0.9, 0.03], [-0.108, 0.93, 0.03], [-0.112, 1.0, 0.025], [-0.11, 1.05, 0.02], [-0.1, 1.07, 0.03]], 0.0155, 'Ascending colon');
+colon('transverse_colon', [[-0.1, 1.07, 0.03], [-0.07, 1.07, 0.055], [-0.03, 1.04, 0.06], [0, 1.02, 0.062], [0.03, 1.03, 0.06], [0.07, 1.06, 0.055], [0.11, 1.085, 0.0]], 0.0155, 'Transverse colon');
+colon('descending_colon', [[0.11, 1.085, 0.0], [0.115, 1.05, -0.02], [0.118, 1.0, -0.01], [0.115, 0.95, 0.0], [0.11, 0.9, 0.0], [0.1, 0.885, 0.015]], 0.0145, 'Descending colon');
+colon('sigmoid_colon', [[0.1, 0.885, 0.015], [0.07, 0.895, 0.032], [0.04, 0.905, 0.04], [0.015, 0.89, 0.015], [0.0, 0.868, -0.02]], 0.0135, 'Sigmoid colon');
+varTube('rectum', [[0, 0.868, -0.02], [0, 0.84, -0.045], [0, 0.805, -0.05]], () => 0.0125, dm.colon, { label: 'Rectum' });
+varTube('anal_canal', [[0, 0.805, -0.05], [0, 0.775, -0.045]], () => 0.0095, dm.colon, { label: 'Anal canal' });
+// greater omentum: translucent apron hanging from the stomach and transverse colon
+{
+  const U = 28, Vn = 10, g = new THREE.PlaneGeometry(1, 1, U, Vn), p = g.attributes.position;
+  for (let k = 0; k < p.count; k++) {
+    const u = p.getX(k) + 0.5, v = 0.5 - p.getY(k), a = 2 * u - 1;
+    const yt = 1.062 - 0.04 * (1 - a * a), yb = 0.93 + 0.03 * a * a;
+    p.setXYZ(k, a * 0.105, yt * (1 - v) + yb * v, 0.082 - 0.03 * a * a);
+  }
+  g.computeVertexNormals(); const om = new THREE.Mesh(g, dm.omentum); om.renderOrder = 1; reg(DG, 'greater_omentum', om, { label: 'Greater omentum' });
+}
+
+// ───────── URINARY ─────────
+sph('urinary', 'bladder', 0.034, [0, 0.845, 0.04], mat.bladder, { scale: [1, 0.9, 0.9] });
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z];
+  sph('urinary', n('kidney'), 0.032, P(0.062, 1.13, -0.055), mat.kidney, { scale: [0.6, 1.1, 0.55] });
+  tube('urinary', n('ureter'), [P(0.052, 1.11, -0.05), P(0.045, 1.0, -0.04), P(0.035, 0.9, -0.01), P(0.012, 0.855, 0.035)], 0.0035, mat.bladder);
+}
+
+// ───────── NERVOUS ─────────
+for (const s of [-1, 1]) {
+  const sd = s < 0 ? 'right' : 'left', n = x => `${x}_${sd}`, P = (x, y, z) => [s * x, y, z];
+  sph('nervous', n('cerebral_hemisphere'), 0.058, P(0.03, 1.672, 0.003), mat.brain, { scale: [0.78, 0.9, 1.15], label: 'Cerebrum' });
+  tube('nervous', n('brachial_plexus'), [P(0.008, 1.46, zc(1.46) - 0.022), P(0.07, 1.435, -0.03), P(0.14, 1.41, -0.005), P(0.205, 1.34, 0.0), P(0.225, 1.2, 0.0), P(0.242, 1.07, -0.004), P(0.26, 0.9, 0.012), P(0.275, 0.83, 0.022)], 0.0042, mat.nerve);
+  tube('nervous', n('sciatic_nerve'), [P(0.01, 0.93, -0.06), P(0.07, 0.88, -0.066), P(0.09, 0.75, -0.035), P(0.098, 0.55, -0.022), P(0.1, 0.45, -0.016), P(0.1, 0.25, -0.022), P(0.1, 0.075, 0.0), P(0.1, 0.02, 0.1)], 0.0058, mat.nerve);
+  for (let i = 0; i < 7; i++) { const y = 1.37 - i * 0.0265 - 0.012;
+    tube('nervous', n('intercostal_nerve_' + i), [P(0.008, y, zc(y) - 0.022), P(0.1, y - 0.005, -0.075), P(0.14, y - 0.02, 0.0), P(0.12, y - 0.045, 0.07)], 0.0022, mat.nerve); }
+}
+sph('nervous', 'cerebellum', 0.036, [0, 1.612, -0.055], mat.brain, { scale: [1.5, 0.75, 1] });
+seg('nervous', 'brainstem', [0, 1.628, -0.012], [0, 1.575, -0.03], 0.014, 0.01, mat.brain);
+{ const pts = []; for (let y = 1.58; y >= 1.05; y -= 0.05) pts.push([0, y, zc(y) - 0.022]);
+  tube('nervous', 'spinal_cord', pts, 0.0075, mat.nerve);
+  for (let i = 0; i < 5; i++) { const dx = (i - 2) * 0.006; tube('nervous', 'cauda_equina_' + i, [[0, 1.06, zc(1.06) - 0.022], [dx, 0.99, zc(1.0) - 0.024], [dx * 2, 0.93, zc(0.93) - 0.028]], 0.0022, mat.nerve, { label: 'Cauda equina' }); } }
+
+// ───────── PLANES ─────────
+const planes = {};
+function plane(key, color, w, h, setup) {
+  const g = new THREE.Group(); g.name = key + '_plane'; g.visible = false;
+  const pm = new THREE.MeshStandardMaterial({ name: key + '_plane', color, transparent: true, opacity: 0.2, side: THREE.DoubleSide, depthWrite: false, roughness: 0.9, metalness: 0 });
+  const sheet = new THREE.Mesh(new THREE.PlaneGeometry(w, h), pm); sheet.name = key + '_sheet'; sheet.renderOrder = 3; g.add(sheet);
+  const em = new THREE.MeshStandardMaterial({ name: key + '_edge', color, roughness: 0.6, metalness: 0 }), t = 0.006;
+  for (const [nm, gw, gh, x, y] of [['top', w, t, 0, h / 2], ['bottom', w, t, 0, -h / 2], ['l', t, h, -w / 2, 0], ['r', t, h, w / 2, 0]]) {
+    const e = new THREE.Mesh(new THREE.BoxGeometry(gw, gh, t), em); e.name = `${key}_edge_${nm}`; e.position.set(x, y, 0); g.add(e);
+  }
+  setup(g); model.add(g); planes[key] = g;
+}
+plane('sagittal', 0xc28d41, 0.7, 1.85, g => { g.rotation.y = Math.PI / 2; g.position.set(0, 0.93, 0); });
+plane('coronal', 0x605d5d, 0.9, 1.85, g => { g.position.set(0, 0.93, 0); });
+plane('transverse', 0x5a3b0a, 0.9, 0.7, g => { g.rotation.x = -Math.PI / 2; g.position.set(0, 1.2, 0); });
+
+stage.setObject(model);
+const vis = o => { while (o) { if (!o.visible) return false; o = o.parent; } return true; };
+model.traverse(o => { if (o.isMesh) { o.castShadow = o.userData.sys === 'skin'; o.receiveShadow = false; } });
+for (const k in mat) if (mat[k].transparent) { /* transparent materials draw after opaques */ }
+
+// ───────── UI ─────────
+const $ = id => document.getElementById(id);
+const list = $('systems'); let sel = 'skeletal';
+function showInfo() {
+  const s = SYS.find(x => x.k === sel);
+  $('info').innerHTML = `<h3>${s.name}</h3><p>${s.blurb}</p><p class="parts">${s.parts.join(' · ')}</p><div class="btns"><button class="b" id="solo">Show only this system</button></div>`;
+  $('solo').onclick = () => { SYS.forEach(x => setSys(x.k, x.k === sel || (x.k === 'skin'))); };
+  list.querySelectorAll('.sys').forEach(r => r.classList.toggle('sel', r.dataset.k === sel));
+}
+function setSys(k, on) { G[k].visible = on; list.querySelector(`[data-k="${k}"] input`).checked = on; }
+SYS.forEach(s => {
+  const r = document.createElement('div'); r.className = 'sys'; r.dataset.k = s.k;
+  r.innerHTML = `<span class="sw" style="background:${s.color}"></span><span class="sname">${s.name}</span><input type="checkbox" ${s.on ? 'checked' : ''} aria-label="Show ${s.name}">`;
+  r.addEventListener('click', e => { if (e.target.tagName !== 'INPUT') { sel = s.k; showInfo(); } });
+  r.querySelector('input').addEventListener('change', e => { G[s.k].visible = e.target.checked; sel = s.k; showInfo(); });
+  list.appendChild(r);
+});
+$('all').onclick = () => SYS.forEach(s => setSys(s.k, true));
+$('none').onclick = () => SYS.forEach(s => setSys(s.k, false));
+showInfo();
+$('skinop').addEventListener('input', e => { const v = +e.target.value; mat.skin.opacity = v; mat.skin.transparent = v < 0.99; mat.skin.depthWrite = v >= 0.99; mat.skin.needsUpdate = true; });
+document.querySelectorAll('[data-plane]').forEach(cb => cb.addEventListener('change', () => { planes[cb.dataset.plane].visible = cb.checked; }));
+document.querySelectorAll('[data-slide]').forEach(r => r.addEventListener('input', () => {
+  const v = +r.value, p = planes[r.dataset.slide];
+  if (r.dataset.slide === 'sagittal') p.position.x = v; else if (r.dataset.slide === 'coronal') p.position.z = v; else p.position.y = v;
+}));
+
+// hover labels
+const ray = new THREE.Raycaster(), tip = $('tip'), pt = new THREE.Vector2();
+stage.addEventListener('pointermove', e => {
+  if (e.buttons) { tip.style.display = 'none'; return; }
+  const cv = stage._renderer.domElement, rc = cv.getBoundingClientRect();
+  pt.set(((e.clientX - rc.left) / rc.width) * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1);
+  ray.setFromCamera(pt, stage._camera);
+  const meshes = []; model.traverse(o => { if (o.isMesh && o.userData.label && vis(o)) meshes.push(o); });
+  const hits = ray.intersectObjects(meshes, false);
+  const h = hits.find(x => x.object.userData.sys !== 'skin') || hits[0];
+  if (!h) { tip.style.display = 'none'; return; }
+  tip.textContent = h.object.userData.label; tip.style.display = 'block';
+  tip.style.left = e.clientX + 14 + 'px'; tip.style.top = e.clientY + 14 + 'px';
+});
+stage.addEventListener('pointerleave', () => { tip.style.display = 'none'; });
+
+</script>
+</body>
+</html>
