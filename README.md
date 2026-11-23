@@ -9,8 +9,8 @@
 - **Current Focus:** Metabolic Cybernetics, Cellular Biochemistry and Physiology
 - **Interests:** Exploring the intersection of Nutritional Biology, Marine Biology and Pharmacology
 - **Academics:** Exploring Metabolic Regulation, Biochemical Mechanisms of Human Disease, and Marine Science.
-- **Ask me about:** 
-- 📫 **Connect with me:** [LinkIn](http://linkein.com/in/tsz-nok-lee-992b8b376) / [Email](mailto:isaaclee@live.com)
+- **Ask me about:** Cellular Biochemistry, Metabolic Pathways and Interactive 3D Biology Visualisation
+- 📫 **Connect with me:** [LinkedIn](http://linkein.com/in/tsz-nok-lee-992b8b376) / [Email](mailto:isaaclee@live.com)
 
 --- 
 
