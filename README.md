@@ -24,4 +24,4 @@
 ### Scientific & Technical Skills
 - **Data & Computation:** R (Data Analysis & Visualisation)
 - **Scientific Documentation &  Typesetting:** LaTeX (Academic Writing,Formulas & Reports)
-- **Diagrams & Pathways:** [Mermaid.js (Click to see visual examples ↗](mermaid-examples.md)
+- **Diagrams & Pathways:**
