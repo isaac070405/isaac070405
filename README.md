@@ -12,6 +12,13 @@
 - **Ask me about:** Cellular Biochemistry, Metabolic Pathways and Interactive 3D Biology Visualisation
 - 📫 **Connect with me:** [LinkedIn](http://linkein.com/in/tsz-nok-lee-992b8b376) / [Email](mailto:isaaclee@live.com)
 
+---
+
+### Feature Project
+- **cell-atlas** Interactive cell and molecule module of the Human Biology platform, zooming from a to-scale schematic cell down to experimental PDB structures in Mol*.
+- **3D-Anatomy-Model** Web-based 3D human anatomical model visualiser built with JavaScript.
+- **Diagrams** Interactive biological pathways and scientific diagrams rendered for web exploration.
+
 --- 
 
 ### Scientific & Technical Skills
